@@ -1,7 +1,0 @@
-Tamos usando o tipo MVC(Model, Views e controlles)
-A rota deside quem vai controlar essa rota,
-Exemplo o home(./), quem vai controlar é a homecontroller,
-O controler que descidir qual o model ou views vai ser utilidado pela aquela rota.
-
-O model vai trabalhar com a base de dados; 
-O Views ja diz o que o usuario vai ver;
