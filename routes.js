@@ -1,25 +1,37 @@
+
 const express = require('express');
-const route = express.Router();
-const homeController = require('./src/controllers/homeControllers');
-const loginController = require('./src/controllers/loginControllers');
-const contatoController = require('./src/controllers/contatoControllers');
+const router = express.Router();
+const Cliente = require('./src/models/Cliente');
+router.get('/', async (req, res) => {
+  try {
+    const clientes = await Cliente.findAll();
+    return res.json(clientes);
+  } catch (error) {
+    console.error('Erro ao listar clientes:', error);
+    return res.status(500).json({ error: 'Erro interno do servidor ao listar clientes.' });
+  }
+});
 
-const { loginReq } = require('./src/middleware/middleware');
+router.post('/', async (req, res) => {
 
+  const { nome, email, telefone } = req.body;
 
-//rotas para home
-route.get('/', homeController.index);
+  if (!nome || !email) {
+    return res.status(400).json({ error: 'Nome e email são obrigatórios.' });
+  }
 
+  try {
+    const novoCliente = await Cliente.create({ nome, email, telefone });
+    return res.status(201).json(novoCliente);
+  } catch (error) {
+    console.error('Erro ao cadastrar cliente:', error);
+    
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(409).json({ error: 'O email fornecido já está cadastrado.' });
+    }
+    
+    return res.status(500).json({ error: 'Erro interno do servidor ao cadastrar cliente.' });
+  }
+});
 
-//Rotas de login
-route.get('/login/index', loginController.index);
-route.post('/login/register', loginController.register);
-route.post('/login/login', loginController.login);
-route.get('/login/logout', loginController.logout);
-
-//rotas de contato
-route.get('/contato/index', loginReq, contatoController.index);
-route.post('/contato/register', loginReq, contatoController.register);
-
-
-module.exports = route;
+module.exports = router;
