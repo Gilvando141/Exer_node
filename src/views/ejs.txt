@@ -1,9 +1,0 @@
- <%Tag 'Scriptlet', para controle-fluxo, sem saída
-<%_Tag ‘Whitespace Slurping’ Scriptlet, tira todo o espaço em branco antes dele
-<%=Saídas o valor no modelo (HTML escape)
-<%-Saída o valor não descapado no modelo
-<%#Tag de comentário, sem execução, sem saída
-<%%Saídas um "?%" literal
-%>Tag de encerramento simples
--%>Tag Trim-mode ('newline slurp'', aparas seguindo a nova linha
-_%>Tag de final 'Whitespace Slurping', remove todo o espaço em branco depois d
